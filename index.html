@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- mobile phone responsive -->
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Snake</title>
+
+    <link href="css/style.css" rel="stylesheet"/>
+
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <!-- Nunito font link (has to be like this for Safari that did not support @import) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body class="flexbox-main justify-space-between">
+    <div class="flexbox-justify-start">
+        <header class="animated" id="main-header">
+            <h1>Snake</h1>
+        </header>
+
+        <section class="form-container" id="user-form-section">
+            <form id="user-form">
+                <h2>Enter name to play</h2>
+                <div class="input-container">
+                    <!-- has to be in this order because of the siblings operator -->
+                    <input id="username-input" type="text" name="username" minlength="3" maxlength="20" placeholder="John" autofocus required/>
+                    <label for="username-input">Name</label>
+                </div>
+
+                <div id="drop-area" class="drop-area">
+                    <p id="upload-instructions">Drag an image here or click to upload</p>
+                    <input type="file" id="fileElement" accept="image/*" style="display:none">
+                </div>
+
+                <button id="form-button">Play</button>
+            </form>
+        </section>
+    </div>
+
+    <aside id="game-settings">
+        <div class="checkboxes-container">
+            <label class="checkbox-label">Sound On
+                <input type="checkbox" id="sound" checked>
+                <span class="checkmark"></span>
+            </label>
+            <label class="checkbox-label">Music On
+                <input type="checkbox" id="music" checked>
+                <span class="checkmark"></span>
+            </label>
+        </div>
+    </aside>
+
+    <!-- Hammer.js library for using touch controls -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+
+
+    <script type="module">
+        import {saveUserData, enableButton, setupImageUpload} from './js/titleScreen.js';
+        import {initializeGame} from './js/gameSetup.js';
+        import {initializeNavigation} from "./js/navigation.js";
+
+        history.pushState({ page: "title" }, "title", "#page=title"); // initial state
+
+        setupImageUpload(); // Setup image upload functionality with event listeners
+        initializeNavigation() // Initialise navigation event listeners
+
+        let form = document.getElementById("user-form");
+        let input = document.getElementById("username-input")
+        let button = document.getElementById("form-button");
+
+        // Enable button when input is valid
+        input.addEventListener("input", () => {
+            enableButton(input.value, button)
+        })
+
+        // Submit form event listener
+        form.addEventListener("submit",(e) => {
+            let online = navigator.onLine;
+            e.preventDefault();
+            saveUserData();
+            history.pushState({ page: "game" }, "game", "#page=game"); // game state
+            // setup game screen and controls based on online status
+            initializeGame(online);
+        })
+
+        // Rotate background
+        let angle = 0;
+        const updateBackground = () => {
+            const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'>
+                            <rect fill='#1e5912' width='120' height='120'/>
+                            <polygon fill='#000' fill-opacity='.1' points='120 0 120 60 90 30 60 0 0 0 0 0 60 60 0 120 60 120 90 90 120 60 120 0' transform='rotate(${angle}, 60, 60)'/>
+                        </svg>`;
+            const encodedSvg = encodeURIComponent(svg);
+            document.body.style.backgroundImage = `url("data:image/svg+xml;utf8,${encodedSvg}")`;
+            angle = (angle + 1) % 360;  // rotate 1 degree
+        };
+        setInterval(updateBackground, 100); // every 100ms
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,470 @@
+
+:root {
+    --my-matcha-green: #3BA424;
+    --my-matcha-green-transparent: rgba(59, 164, 36, 0.8);
+    --my-matcha-green-light: #52a440;
+    --my-matcha-green-dark: #1e5912;
+    --my-blue: #152d4f;
+    --my-crimson-red: #ab0000;
+}
+
+body {
+    font-family: Nunito, sans-serif;
+    margin: 0;
+    background-color: var(--my-matcha-green-dark);
+    background-position: center;
+    background-repeat: repeat;
+    background-size: auto;
+}
+
+/* ------------------------------------ Main screen styling --------------------------------------------------------*/
+
+.flexbox-main {
+    min-height: 100vh;
+    max-width: 100vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.justify-space-between {
+    justify-content: space-between;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.flexbox-justify-start {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+header {
+    width: fit-content;
+}
+
+header h1 {
+    font-family: "Press Start 2P", sans-serif;
+    margin: 10vh 0 8vh 0;
+    text-align: center;
+    text-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
+    font-size: 5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+@keyframes diagonalMove {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(5vh, -5vh);
+    }
+    50% {
+        transform: translate(0, 0);
+    }
+    75% {
+        transform: translate(5vh, 5vh);
+    }
+}
+
+@-webkit-keyframes diagonalMove { /* Safari and older Chrome */
+    0%, 100% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+    25% {
+        -webkit-transform: translate(5vh, -5vh);
+        transform: translate(5vh, -5vh);
+    }
+    50% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+    75% {
+        -webkit-transform: translate(5vh, 5vh);
+        transform: translate(5vh, 5vh);
+    }
+}
+
+/* When input is focused, header will have animation */
+header.animated {
+    -webkit-animation: diagonalMove 1.5s infinite ease-in-out;
+    animation: diagonalMove 1.5s infinite ease-in-out;
+}
+
+.form-container {
+    text-align: center;
+    padding: 5vh;
+    background: rgba(255,255,255,0.5);
+    -webkit-box-shadow: 0 1vh 1vh rgba(0,0,0,0.5); /* Safari */
+    box-shadow: 0 1vh 1vh rgba(0,0,0,0.5);
+    border-radius: 10px;
+}
+
+.form-container h2 {
+    font-size: 1.7rem;
+    color: #000;
+    text-align: center;
+    margin: 0 4vh 4vh 4vh;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.input-container label {
+    order: 1;
+    pointer-events: none;
+    align-self: stretch;
+    text-align: left;
+    font-weight: bold;
+    padding: 0.5vh 0;
+    color: #000;
+    transition: all 0.5s ease-out;
+}
+
+.input-container input {
+    order: 2;
+    width: 100%;
+    padding: 1vh 0;
+    margin-bottom: 3vh;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-top: 0; /* Removes the default top border on safari */
+    border-bottom: 1px solid #000;
+    color: #000;
+    font-size: 1rem;
+    transition: all 0.5s ease-out;
+}
+
+/* When form is focused change the sibling label */
+.input-container input:focus ~ label {
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+.input-container input:focus {
+    padding-left: 1vh;
+    -webkit-box-shadow: 0 0.5vh 0.5vh rgba(0,0,0,0.5); /* Safari */
+    box-shadow: 0 0.5vh 0.5vh rgba(0,0,0,0.5);
+    border-bottom: none;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.input-container input::placeholder {
+    font-size: 1rem;
+    opacity: 0.6;
+    color: rgba(0, 0, 0, 0.8);
+    font-family: Nunito, sans-serif;
+}
+
+.input-container input::-ms-input-placeholder {
+    font-size: 1rem;
+    opacity: 0.6;
+}
+
+.drop-area {
+    padding: 10px;
+    border: 2px dashed rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease-in-out;
+    margin-top: 1vh;
+    margin-bottom: 3vh;
+    cursor: pointer;
+}
+.drop-area:hover {
+    background-color: rgba(255,255,255,0.5);
+}
+
+.drop-area .image-preview {
+    height: 12vh;
+}
+
+.form-container button {
+    color: #fff;
+    padding: 1.1vh 2.2vh;
+    margin-top: 2.2vh;
+    font-size: 1.25rem;
+    font-family: Nunito, sans-serif;
+    font-weight: bold;
+    border-radius: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: box-shadow 0.5s ease-in-out, transform 0.5s ease-out;
+    background: var(--my-matcha-green-transparent);
+}
+
+.form-container button:not(.enabled) {
+    color: var(--my-matcha-green-dark);
+}
+
+/* Only the enabled button has transition on hover */
+.form-container button.enabled:hover {
+    -webkit-box-shadow: 0 1vh 1vh rgba(0,0,0,0.5); /* Safari */
+    box-shadow: 0 1vh 1vh rgba(0,0,0,0.5);
+    -webkit-transform: translateY(-0.5vh); /* Safari */
+    transform: translateY(-0.5vh);
+}
+
+/* Adjust the title page on smaller devices */
+@media screen and (max-width: 490px) {
+    .form-container {
+        width: 70vw;
+    }
+
+    header h1 {
+        font-size: 4rem;
+    }
+
+    .form-container h2 {
+        margin: 0 0 4vh 0;
+    }
+}
+
+/* Make the title even smaller */
+@media screen and (max-width: 420px) {
+    header h1 {
+        font-size: 3.5rem;
+    }
+}
+
+/* Make the title even smaller and responsive */
+@media screen and (max-width: 365px) {
+    header h1 {
+        font-size: 14vw;
+    }
+}
+
+.checkboxes-container {
+    margin: 2vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5vh;
+    flex-wrap: wrap;
+}
+
+.checkboxes-container .checkbox-label {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 1.2rem;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+/* Hide the default checkbox */
+.checkboxes-container input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: absolute;
+    opacity: 0;
+}
+
+/* Custom checkmark style */
+.checkboxes-container .checkbox-label .checkmark {
+    height: 1.5rem;
+    width: 1.5rem;
+    background-color: rgba(255,255,255,0.5);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    border: none;
+    position: relative;
+    transition: background-color 0.2s linear, box-shadow 0.5s ease-in-out, transform 0.5s ease-out;
+}
+
+
+.checkboxes-container input[type="checkbox"]:checked + .checkmark {
+    background-color: var(--my-matcha-green);
+}
+
+/* Add a checkmark icon when checked */
+.checkboxes-container input[type="checkbox"]:checked + .checkmark::after {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 -960 960 960' width='24'%3E%3Cpath stroke='white' fill='white' stroke-width='2' d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z'/%3E%3C/svg%3E");
+    width: 100%;
+    height: 100%;
+}
+
+/* Transition on hover like the button */
+.checkboxes-container input[type="checkbox"]:hover + .checkmark {
+    -webkit-box-shadow: 0 1vh 1vh rgba(0,0,0,0.5); /* Safari */
+    box-shadow: 0 1vh 1vh rgba(0,0,0,0.5);
+    -webkit-transform: translateY(-0.5vh); /* Safari */
+    transform: translateY(-0.5vh);
+}
+
+/* Sets the checkboxes to column */
+@media screen and (max-width: 330px) {
+    .checkboxes-container {
+        flex-direction: column;
+        gap: 1vh;
+    }
+}
+
+/* -------------------------------------------- Game styling ------------------------------------------------- */
+
+.game-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.game-container .info-container {
+    display: flex;
+    width: 70vw; /* 70% of the viewport width */
+    max-width: 70vh; /* Limit width to 70% of the viewport height */
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+canvas {
+    width: 70vw; /* 70% of the viewport width */
+    height: 70vh; /* 70% of the viewport height */
+    max-width: 70vh; /* Limit width to 70% of the viewport height */
+    max-height: 70vw; /* Limit height to 70% of the viewport width */
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    -webkit-box-shadow: 0 1vh 1vh rgba(0,0,0,0.5); /* Safari */
+    box-shadow: 0 1vh 1vh rgba(0,0,0,0.5);
+}
+
+p.instruction-text {
+    color: #000;
+    font-size: 2rem;
+    text-align: center;
+    position: absolute;
+    width: 60vw;
+    max-width: 60vh;
+}
+
+.error-text {
+    color: var(--my-crimson-red) !important;
+}
+
+.timer, .score-counter {
+    padding: 0.5vh;
+    font-size: 1.3rem;
+    color: #fff;
+}
+
+audio {
+    width: 70vw; /* 70% of the viewport width */
+    max-width: 70vh; /* Limit width to 70% of the viewport height */
+    margin-top: 2vh;
+}
+
+/* Sets the game info to column */
+@media screen and (max-width: 230px) {
+    .timer, .score-counter {
+        padding: 0;
+    }
+
+    .info-container {
+        flex-direction: column;
+    }
+}
+
+/* Makes the canvas text smaller and the canvas bigger */
+@media screen and (max-width: 450px) {
+    p.instruction-text {
+        font-size: 1.6rem;
+        width: 80vw;
+        max-width: 80vh;
+    }
+
+    canvas {
+        width: 90vw;
+        height: 90vh;
+        max-width: 90vh;
+        max-height: 90vw;
+    }
+
+    audio {
+        width: 90vw;
+        max-width: 90vh;
+    }
+
+    .game-container .info-container {
+        width: 90vw;
+        max-width: 90vh;
+    }
+}
+
+
+/* ------------------------------------ GameOver additional styling --------------------------------- */
+
+h2.game-over-text {
+    font-size: 3rem;
+    margin-bottom: 1.5vh;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin: 3vh 0;
+}
+
+.button-container button {
+    margin: 2vh;
+}
+
+/* --------------------------------- Leader board styling -------------------------------------------- */
+#leaderboard-section {
+    margin: 5vh;
+}
+
+.leaderboard-table {
+    font-size: 1.3rem;
+    border-spacing: 1rem 0.4rem;
+}
+
+.leaderboard-table .leader-image-preview {
+    height: 5vh;
+}
+
+/* Sets the background color of the first row to red */
+.leaderboard-table tbody tr:first-child td {
+    color: var(--my-crimson-red);
+}
+
+
+/* Make the game over text smaller on small devices and wrap buttons */
+@media screen and (max-width: 450px) {
+    h2.game-over-text {
+        font-size: 2.5rem;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-container button {
+        margin: 1vh;
+        width: fit-content;
+    }
+
+    table.leaderboard-table {
+        border-spacing: 0.5rem 0.4rem;
+    }
+
+    /* Wraps the user text if it is too long */
+    table.leaderboard-table tbody tr td {
+        overflow-wrap: anywhere;
+    }
+}
